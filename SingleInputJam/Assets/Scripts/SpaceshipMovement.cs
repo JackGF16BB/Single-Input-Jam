@@ -18,6 +18,8 @@ public class SpaceshipMovement : MonoBehaviour
 
     private float activePitch, activeRoll, activeYaw;
 
+    public Joystick joystick;
+
     private void Update()
     {
         if (throttle)
@@ -34,7 +36,7 @@ public class SpaceshipMovement : MonoBehaviour
         }
         else
         {
-            transform.position += transform.forward * enginePower * Time.deltaTime; //Pushed the ship forward
+            transform.position += transform.forward * enginePower/2 * Time.deltaTime; //Pushed the ship forward
 
             activePitch = Input.GetAxisRaw("Vertical") * pitchPower/2 * Time.deltaTime; //Asigns the active variables
             activeRoll = Input.GetAxisRaw("Horizontal") * rollPower/2 * Time.deltaTime;
