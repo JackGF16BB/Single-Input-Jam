@@ -27,7 +27,8 @@ public class SpaceshipMovement : MonoBehaviour
 
         if (rise)
         {
-            transform.rotation += pitchPower * Time.deltaTime;
+
+            //transform.rotation += pitchPower * Time.deltaTime;
         }
     }
 }
