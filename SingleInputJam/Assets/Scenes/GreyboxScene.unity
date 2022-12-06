@@ -1304,6 +1304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   circle: {fileID: 1415733349}
   outerCircle: {fileID: 313323373}
+  Debugging: 1
 --- !u!1 &1004857193
 GameObject:
   m_ObjectHideFlags: 0

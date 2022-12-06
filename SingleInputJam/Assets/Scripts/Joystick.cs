@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Joystick : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class Joystick : MonoBehaviour
 
     public Transform circle;
     public Transform outerCircle;
+
+    public bool Debugging;
 
     // Start is called before the first frame update
     void Start()
@@ -27,10 +30,10 @@ public class Joystick : MonoBehaviour
 
             circle.position = pointA * -1;
             outerCircle.position = pointA * -1;
-            circle.GetComponent<SpriteRenderer>().enabled = true;
-            outerCircle.GetComponent<SpriteRenderer>().enabled = true;
+            circle.GetComponent<Image>().enabled = true;
+            outerCircle.GetComponent<Image>().enabled = true;
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             touchStart = true;
             pointB = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.z));
@@ -49,12 +52,17 @@ public class Joystick : MonoBehaviour
 
             circle.transform.position = new Vector2(pointA.x + direction.x, pointA.y + direction.y) * -1;
 
-            Debug.Log(direction);
+            if (Debugging)
+            {
+                Debug.Log("Direction: " + direction);
+                Debug.Log("Point A: " + pointA);
+                Debug.Log("Point B: " + pointB);
+            }
         }
         else
         {
-            circle.GetComponent<SpriteRenderer>().enabled = false;
-            outerCircle.GetComponent<SpriteRenderer>().enabled = false;
+            circle.GetComponent<Image>().enabled = false;
+            outerCircle.GetComponent<Image>().enabled = false;
         }
     }
 }
