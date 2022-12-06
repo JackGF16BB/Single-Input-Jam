@@ -638,7 +638,7 @@ MonoBehaviour:
   pitchPower: 0
   rollPower: 0
   yawPower: 0
-  enginePower: 0
+  enginePower: 5
 --- !u!1 &1922863601
 GameObject:
   m_ObjectHideFlags: 0

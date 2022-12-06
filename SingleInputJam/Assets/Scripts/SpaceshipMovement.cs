@@ -21,7 +21,7 @@ public class SpaceshipMovement : MonoBehaviour
     {
         if (throttle)
         {
-            spaceShip.transform.position = Vector3.forward * Time.deltaTime;
+            transform.position += transform.forward * enginePower * Time.deltaTime;
         }
     }
 }
