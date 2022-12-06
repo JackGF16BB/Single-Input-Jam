@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class SpaceshipMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public bool throttle => Input.GetKey(KeyCode.W);
+    public GameObject spaceShip;
 
-    // Update is called once per frame
-    void Update()
+    //Some notes: 
+    //Pitch controls how quickly the aircraft will rotate up or down
+    //Roll controls how quickly the aircraft rotates left or right
+    //Yaw controls whether the planee turns left or right
+    //Engine power refers to how fast the aircraft will move forward
+
+    public float pitchPower, rollPower, yawPower, enginePower;
+
+    private float activePitch, activeRoll, activeYaw;
+
+    private void Update()
     {
-        
+        if (throttle)
+        {
+            spaceShip.transform.position = Vector3.forward * Time.deltaTime;
+        }
     }
 }
