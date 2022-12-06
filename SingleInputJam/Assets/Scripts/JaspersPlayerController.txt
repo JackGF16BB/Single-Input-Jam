@@ -1,0 +1,133 @@
+Jasper, Player Controller Text
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using Cinemachine;
+using TMPro;
+[RequireComponent(typeof(CharacterController))]
+public class PlayerController : MonoBehaviour
+{
+    [SerializeField] private CharacterController m_characterController;
+    [SerializeField] public InputController inputController;
+    [SerializeField] private GameSystemManager gameSystemManager;
+    public Animator m_animator;
+    [Header("Player Grounded")]
+    public Transform ground;
+    [Tooltip("check if the player is Grounded")]
+    [SerializeField] private bool isGrounded;
+    [Tooltip("Distance to Ground")]
+    public float distanceToGround = 0.0f;
+    [Tooltip("Layers approved to be the ground")]
+    [SerializeField] private LayerMask groundMask;
+    [Tooltip("Gravity")]
+    private float gravity = -9.81f;
+    [Tooltip("Movement")]
+    [SerializeField] private int movementSpeed = 10;
+    [SerializeField] private float turnSpeed = 10f;
+    private Vector3 inputDirection;
+    private Vector2 movementInput;
+    private Quaternion currentRotation;
+    private Vector3 velocity;
+    private Vector3 desiredDirection;
+    public float distanceTravelled;
+    public Vector3 targetInput;
+    private void Awake()
+    {
+        inputController = new InputController();
+        inputController.PlayerControls.Movement.performed += OnMovementEnable;
+        inputController.PlayerControls.Movement.canceled += OnMovementDisable;
+        currentRotation.eulerAngles = new Vector3(0, 180, 0);
+    }
+    private void Start()
+    {
+        gameSystemManager = GameSystemManager.gameSystemManagerMain;
+    }
+    public void OnMovementEnable(InputAction.CallbackContext value)
+    {
+        movementInput = value.ReadValue<Vector2>();
+    }
+    public void OnMovementDisable(InputAction.CallbackContext value)
+    {
+        movementInput = Vector2.zero;
+    }
+    private void FixedUpdate()
+    {
+        // in this function it mainly controls the turning directions and position to change when w a s d are pressed this work and connect to the
+        // turn function and move function below
+        targetInput = new Vector3(movementInput.x, 0, movementInput.y).normalized;
+        inputDirection = Vector3.Lerp(inputDirection, targetInput, Time.deltaTime * turnSpeed);
+        Vector3 camForward = Camera.main.transform.forward;
+        Vector3 camRight = Camera.main.transform.right;
+        camForward.y = 0f;
+        camRight.y = 0f;
+        desiredDirection = new Vector3(inputDirection.x, 0, inputDirection.z);
+        Gravity();
+        Moving(desiredDirection);
+        Turn(desiredDirection);
+    }
+    private void Update()
+    {
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            ActivateRaycast();
+        }
+    }
+    private void Moving(Vector3 desiredDirection)
+    {
+        //controls the player movement and player walking animation and audio walking sounds
+        m_characterController.Move(desiredDirection * movementSpeed * Time.deltaTime);
+        if (movementInput != Vector2.zero)
+        {
+            gameSystemManager.audioManager.Play("Footsteps");
+            m_animator.SetBool("isWalking", true);
+        }
+        else
+        {
+            gameSystemManager.audioManager.Pause("Footsteps");
+            m_animator.SetBool("isWalking", false);
+        }
+    }
+    private void Turn(Vector3 desiredDirection)
+    {
+        //controls the player rotation direction to change towards the way you press
+        // press w look forwards press d look right 
+        if ((desiredDirection.x > 0.1 || desiredDirection.x < -0.1) || (desiredDirection.z > 0.1 || desiredDirection.z < -0.1))
+        {
+            currentRotation = Quaternion.LookRotation(desiredDirection);
+            transform.rotation = currentRotation;
+        }
+        else
+        {
+            transform.rotation = currentRotation;
+        }
+    }
+    private void Gravity()
+    {
+        //making sure the player can only move as long as its touching the ground object/mask
+        isGrounded = Physics.CheckSphere(ground.position, distanceToGround, groundMask);
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
+        velocity.y += gravity * Time.deltaTime;
+        m_characterController.Move(velocity * Time.deltaTime);
+    }
+    private void OnEnable()
+    {        
+        inputController.Enable();
+    }
+    private void OnDisable()
+    {
+        inputController.Disable();
+    }
+    public void ActivateRaycast()
+    {
+        // used on mobile to actoive the on screen button to be able to pick up items and interact with all given objects
+        gameSystemManager.rayController.ItemRaycast();
+        gameSystemManager.rayController.PotRaycast();
+        gameSystemManager.rayController.SpellRaycast();
+        gameSystemManager.holdingItem.UpdateItem();
+    }
+}
