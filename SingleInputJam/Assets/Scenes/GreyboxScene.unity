@@ -635,10 +635,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spaceShip: {fileID: 1674602086}
-  pitchPower: 0
-  rollPower: 0
-  yawPower: 0
-  enginePower: 5
+  pitchPower: 140
+  rollPower: 180
+  yawPower: 120
+  enginePower: 90
 --- !u!1 &1922863601
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpaceshipMovement : MonoBehaviour
 {
     public bool throttle => Input.GetKey(KeyCode.W);
+    public bool rise => Input.GetKey(KeyCode.UpArrow);
     public GameObject spaceShip;
 
     //Some notes: 
@@ -22,6 +23,11 @@ public class SpaceshipMovement : MonoBehaviour
         if (throttle)
         {
             transform.position += transform.forward * enginePower * Time.deltaTime;
+        }
+
+        if (rise)
+        {
+            transform.rotation += pitchPower * Time.deltaTime;
         }
     }
 }
