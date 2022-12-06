@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SpaceshipMovement : MonoBehaviour
 {
     public bool throttle => Input.GetKey(KeyCode.Space);
-    public bool rise => Input.GetKey(KeyCode.UpArrow);
     public GameObject spaceShip;
 
     //Some notes: 
@@ -17,8 +17,6 @@ public class SpaceshipMovement : MonoBehaviour
     public float pitchPower, rollPower, yawPower, enginePower;
 
     private float activePitch, activeRoll, activeYaw;
-
-    public Joystick joystick;
 
     private void Update()
     {
