@@ -5,8 +5,12 @@ using UnityEngine.InputSystem;
 
 public class SpaceshipMovement : MonoBehaviour
 {
-    public bool throttle => Input.GetKey(KeyCode.Space);
+    //public bool throttle => Input.GetKey(KeyCode.Space);
+    public bool throttle = true;
+
     public GameObject spaceShip;
+
+    public Joystick joystick;
 
     //Some notes: 
     //Pitch controls how quickly the aircraft will rotate up or down
@@ -24,9 +28,9 @@ public class SpaceshipMovement : MonoBehaviour
         {
             transform.position += transform.forward * enginePower * Time.deltaTime; //Pushed the ship forward
 
-            activePitch = Input.GetAxisRaw("Vertical") * pitchPower * Time.deltaTime; //Asigns the active variables
-            activeRoll = Input.GetAxisRaw("Horizontal") * rollPower * Time.deltaTime;
-            activeYaw = Input.GetAxisRaw("Yaw") * yawPower * Time.deltaTime;
+            //activePitch = Input.GetAxisRaw("Vertical") * pitchPower * Time.deltaTime; //Asigns the active variables
+            //activeRoll = Input.GetAxisRaw("Horizontal") * rollPower * Time.deltaTime;
+            //activeYaw = Input.GetAxisRaw("Yaw") * yawPower * Time.deltaTime;
 
             transform.Rotate(activePitch * pitchPower * Time.deltaTime, 
                             activeYaw * yawPower * Time.deltaTime, 
@@ -36,9 +40,9 @@ public class SpaceshipMovement : MonoBehaviour
         {
             transform.position += transform.forward * enginePower/2 * Time.deltaTime; //Pushed the ship forward
 
-            activePitch = Input.GetAxisRaw("Vertical") * pitchPower/2 * Time.deltaTime; //Asigns the active variables
-            activeRoll = Input.GetAxisRaw("Horizontal") * rollPower/2 * Time.deltaTime;
-            activeYaw = Input.GetAxisRaw("Yaw") * yawPower/2 * Time.deltaTime;
+            //activePitch = Input.GetAxisRaw("Vertical") * pitchPower/2 * Time.deltaTime; //Asigns the active variables
+            //activeRoll = Input.GetAxisRaw("Horizontal") * rollPower/2 * Time.deltaTime;
+            //activeYaw = Input.GetAxisRaw("Yaw") * yawPower/2 * Time.deltaTime;
 
             transform.Rotate(activePitch * pitchPower * Time.deltaTime,
                             activeYaw * yawPower * Time.deltaTime,

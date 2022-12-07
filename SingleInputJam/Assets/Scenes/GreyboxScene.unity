@@ -2306,6 +2306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 208ce50821f6c8f4daf4af8aa60cf329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  throttle: 1
   spaceShip: {fileID: 1674602086}
   pitchPower: 140
   rollPower: 180
